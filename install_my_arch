@@ -1,6 +1,6 @@
 echo -e "1 EFI\n2 BIOS"
-read BS
-case "$BS" in
+read EBI
+case "$EBI" in
      1)
 sh 1e
           ;;
