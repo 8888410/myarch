@@ -1,0 +1,6 @@
+Server = http://mirror.yandex.ru/archlinux/$repo/os/$arch
+Server = http://mirror.rol.ru/archlinux/$repo/os/$arch
+Server = http://mirror.datacenter.by/pub/archlinux/$repo/os/$arch
+Server = http://mirrors.nix.org.ua/linux/archlinux/$repo/os/$arch
+Server = http://mirror.metalgamer.eu/archlinux/$repo/os/$arch
+Server = http://repo.itmettke.de/archlinux/$repo/os/$arch

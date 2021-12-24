@@ -1,0 +1,57 @@
+lsblk
+echo -e "Выбирай на какой диск ставить. a - sda b - sdb..."
+read DD
+echo -e "Запустить программу разметки (если разделы не подготовленны заранее) (y/n)"
+read CF
+case "$CF" in
+y) cfdisk /dev/sd$DD
+ ;;
+n)
+ ;;
+  esac
+echo -e "Как Устанавливаем?\n1 Отдельно boot\n2 Отдельно boot и home"
+read III
+case "$III" in
+
+     1)
+  echo "Укажите корневой раздел, раздел должен быть создан заранее, пример раздела 3 для раздела /dev/sd$DD3"
+  read RR
+  echo "Укажите boot раздел, раздел должен быть создан заранее, пример раздела 2 для раздела /dev/sd$DD2"
+  read BR
+  wipefs -af /dev/sd$DD$RR
+  mkfs.ext4 /dev/sd$DD$RR -L root;
+  wipefs -af /dev/sd$DD$BR
+  mkfs.fat -F32 /dev/sd$DD$BR -L boot;
+  mount /dev/sd$DD$RR /mnt;
+  mkdir /mnt/boot/efi;
+  mount /dev/sd$DD$BR /mnt/boot/efi;
+          ;;
+	 2)
+  echo "Укажите корневой раздел, раздел должен быть создан заранее, пример раздела 3 для раздела /dev/sd$DD3"
+  read RR
+    echo "Укажите boot раздел, раздел должен быть создан заранее, пример раздела 2 для раздела /dev/sd$DD2"
+  read BR
+    echo "Укажите home раздел, раздел должен быть создан заранее, пример раздела 4 для раздела /dev/sd$DD4"
+  read HR
+  
+  wipefs -af /dev/sd$DD$RR
+  mkfs.ext4 /dev/sd$DD$RR -L root;
+  wipefs -af /dev/sd$DD$HR
+  mkfs.ext4 /dev/sd$DD$HR -L home;
+  wipefs -af /dev/sd$DD$BR
+  mkfs.ext2 /dev/sd$DD$BR -L boot;
+  mount /dev/sd$DD$RR /mnt;
+  mkdir /mnt/boot/efi;
+  mkdir /mnt/home;
+  mount /dev/sd$DD$BR /mnt/boot/efi;
+  mount /dev/sd$DD$HR /mnt/home;
+  
+          ;;
+  esac
+
+
+mkdir /mnt/iii/
+cp -r /iii/* /mnt/iii;
+cp ./src/mirrorlist /etc/pacman.d/mirrorlist;
+pacstrap /mnt base base-devel linux linux-firmware; genfstab -U /mnt >> /mnt/etc/fstab; arch-chroot /mnt;
+
