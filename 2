@@ -28,7 +28,7 @@ mkinitcpio -p linux
 grub-install /dev/sd$GGG
 grub-mkconfig -o /boot/grub/grub.cfg
 
-pacman -S --noconfirm xorg-server dhcpcd xorg-apps xorg-server-xwayland htop xorg-xinit xorg-xkill xorg-xinput xf86-input-libinput bc rsync mlocate bash-completion pkgstats arch-wiki-lite zip unzip unrar p7zip lzop cpio avahi nss-mdns alsa-utils alsa-plugins pulseaudio pulseaudio-alsa ntfs-3g gvfs dosfstools exfat-utils f2fs-tools fuse fuse-exfat autofs mtpfs fontconfig freetype2 ttf-droid openssh ntp linux-headers git wget extra-cmake-modules cmake xclip dbus lib32-dbus
+pacman -S --noconfirm xorg-server dhcpcd xorg-apps xorg-server-xwayland htop xorg-xinit xorg-xkill xorg-xinput xf86-input-libinput bc rsync mlocate bash-completion pkgstats arch-wiki-lite zip unzip unrar p7zip lzop cpio avahi nss-mdns alsa-utils alsa-plugins pulseaudio pulseaudio-alsa ntfs-3g gvfs dosfstools exfat-utils f2fs-tools fuse fuse-exfat mtpfs fontconfig freetype2 ttf-droid openssh ntp linux-headers git wget extra-cmake-modules cmake xclip dbus lib32-dbus
  case "$NVI" in
      y)
           pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings && nvidia-xconfig
@@ -73,7 +73,7 @@ case "$DE" in
  esac 
 
 useradd -m -g users -G wheel,audio,video,storage -s /bin/bash $UUU
-systemctl enable sshd avahi-daemon cups.service ntpdate.service smb.service nmb.service winbind teamviewerd
+systemctl enable dhcpcd sshd avahi-daemon cups.service ntpdate.service smb.service nmb.service winbind teamviewerd
 echo -e "polkit.addRule(function(action, subject) {\nif (action.id == 'org.freedesktop.udisks2.filesystem-mount-system' && subject.user == '$UUU') {\nreturn polkit.Result.YES;\n}\n}\n);" > /etc/polkit-1/rules.d/10-enable-mount.rules
 echo -e "[global]\n\nnetbios name = $HHH\nsecurity = user\nmap to guest = bad user\nname resolve order = bcast host\nworkgroup = WORKGROUP\nserver string = Samba Server\nserver role = standalone server\nguest account = nobody\nlog file = /var/log/samba/%m.log\nmax log size = 50\ndns proxy = no\nunix extensions = no\nwide links = yes\nfollow symlinks = yes\ndos charset = cp866\nunix charset = UTF8\nload printers = no\nshow add printer wizard = no\nprintcap name = /dev/null\ndisable spoolss = yes\nusershare path = /var/lib/samba/usershare\nusershare max shares = 100\nusershare allow guests = yes\nusershare owner only = yes\n\n\n[homes]\npath = /home/$UUU\nbrowsable =yes\nwritable = yes\nguest ok = yes\nread only = no\n" > /etc/samba/smb.conf
 rm -rf /home/arch
