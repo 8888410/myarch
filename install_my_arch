@@ -1,3 +1,4 @@
+setfont cyr-sun16
 echo -e "1 EFI\n2 BIOS"
 read EBI
 case "$EBI" in
